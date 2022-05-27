@@ -97,7 +97,7 @@ app.post('/', function (req, res) {
 
   if (_selfState.wasHit) {
     if (frontEnemy !== undefined) {
-      if (Math.abs(frontEnemy[1].y - y + frontEnemy[1].x - x) > 1) {
+      if (Math.abs((frontEnemy[1].y - y) + (frontEnemy[1].x - x)) > 1) {
         res.send("F");
         return;
       } else {
