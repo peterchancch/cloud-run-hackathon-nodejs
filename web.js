@@ -102,6 +102,26 @@ app.post('/', function (req, res) {
         return;
       }
     } else {
+      if (Direction.EAST ===  direction && x > dims[0] - 2) {
+        stackStep.push("L", "F");
+        res.send("L");
+        return;
+      } else if (Direction.WEST ===  direction && x < 1) {
+        stackStep.push("L", "F");
+        res.send("L");
+        return;
+      }
+
+      if (Direction.NORTH ===  direction && y < 1) {
+        stackStep.push("L", "F");
+        res.send("L");
+        return;
+      } else if (Direction.SOUTH === direction && y > dims[1] - 2) {
+        stackStep.push("L", "F");
+        res.send("L");
+        return;
+      }
+
       stackStep.push("F");
       res.send(changeDirection[Math.floor(Math.random() * changeDirection.length)]);
       return;
@@ -114,6 +134,25 @@ app.post('/', function (req, res) {
       return;
   }
   
+  if (Direction.EAST ===  direction && x > dims[0] - 2) {
+    stackStep.push("L", "F");
+    res.send("L");
+    return;
+  } else if (Direction.WEST ===  direction && x < 1) {
+    stackStep.push("L", "F");
+    res.send("L");
+    return;
+  }
+
+  if (Direction.NORTH ===  direction && y < 1) {
+    stackStep.push("L", "F");
+    res.send("L");
+    return;
+  } else if (Direction.SOUTH === direction && y > dims[1] - 2) {
+    stackStep.push("L", "F");
+    res.send("L");
+    return;
+  }
 
   res.send(moves[Math.floor(Math.random() * moves.length)]);
 });
