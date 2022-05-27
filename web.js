@@ -109,10 +109,8 @@ app.post('/', function (req, res) {
   }
 
   if (frontEnemy !== undefined) {
-    if (!frontEnemy[1].wasHit) {
       res.send("T");
       return;
-    }
   }
   
 
