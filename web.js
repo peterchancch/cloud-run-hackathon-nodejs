@@ -48,13 +48,15 @@ const moves = ['F', 'L', 'R'];
 // Throw distance: 3 unit
 
 /** @returns {Array} */
-const _filterEnemiesByDirection = (direction, enemiesList, selfState) => {
+const _filterEnemiesByDirection = (direction, enemiesList, selfState, distance = THROWABLE_THRESHOLD) => {
   return enemiesList.filter((enemy)=>{
+    const diffY = enemy[1].y - selfState.y;
+    const diffX = enemy[1].x = selfState.x
     switch (direction) {
-      case Direction.NORTH: return enemy[1].y - selfState.y < 0;
-      case Direction.SOUTH: return enemy[1].y - selfState.y > 0;
-      case Direction.EAST: return enemy[1].x - selfState.x > 0;
-      case Direction.WEST: return enemy[1].x - selfState.x < 0;
+      case Direction.NORTH: return diffY < 0 && -distance < diffY;  
+      case Direction.SOUTH: return diffY > 0 && diffY < distance;
+      case Direction.EAST: return diffX > 0 && diffX < distance;
+      case Direction.WEST: return diffX < 0 && -distance < diffX;
       default: return true;
     }
   })
@@ -63,8 +65,16 @@ const _filterEnemiesByDirection = (direction, enemiesList, selfState) => {
 const THROWABLE_UNIT = 3;
 const THROWABLE_THRESHOLD = 4;
 
+let stackStep = [];
+const changeDirection = ["L", "R"];
+
+
 app.post('/', function (req, res) {
-  console.log(req.body);
+  // console.log(req.body);
+  if (stackStep.length > 0) {
+    res.send(stackStep.pop());
+    return;
+  } 
   const {_links: {self: {href}}, arena: {dims, state}} = req.body;
   const _selfKey = href;
   const _selfState = state[_selfKey];
@@ -75,12 +85,28 @@ app.post('/', function (req, res) {
 
   // Check facing direction, near 3 unit
   const { direction, x, y } = _selfState;
+
+  // Dodge Logic
+
+  // Shoot logic
   const frontEnemy = _filterEnemiesByDirection(direction, nearEnemies, _selfState).find((enemy)=>(Math.abs((enemy[1].y - y) + (enemy[1].x - x)) < THROWABLE_UNIT));
+
+  if (_selfState.wasHit) {
+    if (Math.abs(frontEnemy[1].y - y + frontEnemy[1].x - x) > 1) {
+      res.send("F");
+      return;
+    } else {
+      stackStep.push("F");
+      res.send(changeDirection[Math.floor(Math.random() * changeDirection.length)]);
+      return;
+    }
+  }
+
   if (frontEnemy !== undefined) {
-    // if (!frontEnemy[1].wasHit) {
+    if (!frontEnemy[1].wasHit) {
       res.send("T");
       return;
-    // }
+    }
   }
   
 
