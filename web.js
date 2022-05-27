@@ -51,7 +51,7 @@ const moves = ['F', 'L', 'R'];
 const _filterEnemiesByDirection = (direction, enemiesList, selfState, distance = THROWABLE_THRESHOLD) => {
   return enemiesList.filter((enemy)=>{
     const diffY = enemy[1].y - selfState.y;
-    const diffX = enemy[1].x = selfState.x
+    const diffX = enemy[1].x - selfState.x
     switch (direction) {
       case Direction.NORTH: return diffY < 0 && -distance < diffY;  
       case Direction.SOUTH: return diffY > 0 && diffY < distance;
