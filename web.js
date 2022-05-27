@@ -66,7 +66,7 @@ const THROWABLE_UNIT = 3;
 const THROWABLE_THRESHOLD = 4;
 
 let stackStep = [];
-const changeDirection = ["L", "R"];
+const changeDirection = ["L", "R", "F"];
 
 
 app.post('/', function (req, res) {
@@ -91,22 +91,22 @@ app.post('/', function (req, res) {
   // Shoot logic
   const frontEnemy = _filterEnemiesByDirection(direction, nearEnemies, _selfState).find((enemy)=>(Math.abs((enemy[1].y - y) + (enemy[1].x - x)) < THROWABLE_UNIT));
 
-  if (_selfState.wasHit) {
-    if (frontEnemy !== undefined) {
-      if (Math.abs(frontEnemy[1].y - y + frontEnemy[1].x - x) > 1) {
-        res.send("F");
-        return;
-      } else {
-        stackStep.push("F");
-        res.send(changeDirection[Math.floor(Math.random() * changeDirection.length)]);
-        return;
-      }
-    } else {
-      res.send("F");
-      return;
-    }
+  // if (_selfState.wasHit) {
+  //   if (frontEnemy !== undefined) {
+  //     if (Math.abs(frontEnemy[1].y - y + frontEnemy[1].x - x) > 1) {
+  //       res.send("F");
+  //       return;
+  //     } else {
+  //       stackStep.push("F");
+  //       res.send(changeDirection[Math.floor(Math.random() * changeDirection.length)]);
+  //       return;
+  //     }
+  //   } else {
+  //     res.send("F");
+  //     return;
+  //   }
     
-  }
+  // }
 
   if (frontEnemy !== undefined) {
       res.send("T");
