@@ -92,7 +92,7 @@ app.post('/', function (req, res) {
   const frontEnemy = _filterEnemiesByDirection(direction, nearEnemies, _selfState).find((enemy)=>(Math.abs((enemy[1].y - y) + (enemy[1].x - x)) < THROWABLE_UNIT));
 
   if (_selfState.wasHit) {
-    if (Math.abs(frontEnemy[1].y - y + frontEnemy[1].x - x) > 1) {
+    if (frontEnemy !== undefined && Math.abs(frontEnemy[1].y - y + frontEnemy[1].x - x) > 1) {
       res.send("F");
       return;
     } else {
