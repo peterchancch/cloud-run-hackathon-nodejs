@@ -68,6 +68,10 @@ const THROWABLE_THRESHOLD = 4;
 let stackStep = [];
 const changeDirection = ["L", "R", "F"];
 
+app.post("/manual", function (req, res) {
+  stackStep = req.body;
+  res.send("OK");
+});
 
 app.post('/', function (req, res) {
   // console.log(req.body);
